@@ -1,5 +1,6 @@
 resource "aws_elastic_beanstalk_application" "walletapp" {
   name        = "walletapp"
+ 
 }
 resource "aws_elastic_beanstalk_environment" "walletapp-env" {
   name                = "walletapp-env"
@@ -11,5 +12,16 @@ setting {
         name      = "IamInstanceProfile"
         value     = "aws-elasticbeanstalk-ec2-role"
       }
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SPRING_PROFILES_ACTIVE"
+        value       = "prod"
+    }
+  
+    
 }
 
+output "walletapp_URL" {  
+  description = "walletapp URL"  
+  value       = aws_elastic_beanstalk_environment.walletapp-env.endpoint_url
+  }

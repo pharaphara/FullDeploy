@@ -1,6 +1,8 @@
 
 resource "aws_elastic_beanstalk_application" "matchengine" {
   name        = "matchengine"
+
+ 
 }
 resource "aws_elastic_beanstalk_environment" "matchengine-env" {
   name                = "matchengine-env"
@@ -12,5 +14,20 @@ setting {
         name      = "IamInstanceProfile"
         value     = "aws-elasticbeanstalk-ec2-role"
       }
+      setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SPRING_PROFILES_ACTIVE"
+        value       = "prod"
+    }
+    setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "WALLET_URL"
+        value       = aws_elastic_beanstalk_environment.walletapp-env.endpoint_url
+    }
+    
 }
 
+output "matchengine_URL" {  
+  description = "matchengine URL"  
+  value       = aws_elastic_beanstalk_environment.matchengine-env.endpoint_url
+  }
