@@ -1,0 +1,29 @@
+variable "app_names" {
+    type= set(string)
+   default =["wallet", "matchengine"]
+}
+
+
+provider "aws" {
+  region = "eu-west-3"
+  access_key = "AKIAURVVT5OM5FSE23V6"
+  secret_key = "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"
+
+}
+resource "aws_elastic_beanstalk_application" "application" {
+   for_each   = var.app_names
+  name        = "${each.key}"
+}
+resource "aws_elastic_beanstalk_environment" "environment" {
+    for_each   = var.app_names
+  name                = "${each.key}-env"
+  application         = aws_elastic_beanstalk_application.application${each.key.id}
+  solution_stack_name = "64bit Amazon Linux 2 v3.2.11 running Corretto 11"
+
+setting {
+        namespace = "aws:autoscaling:launchconfiguration"
+        name      = "IamInstanceProfile"
+        value     = "aws-elasticbeanstalk-ec2-role"
+      }
+}
+
