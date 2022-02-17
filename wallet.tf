@@ -11,12 +11,27 @@ setting {
         namespace = "aws:autoscaling:launchconfiguration"
         name      = "IamInstanceProfile"
         value     = "aws-elasticbeanstalk-ec2-role"
-      }
+}
 setting  {
         namespace   = "aws:elasticbeanstalk:application:environment"
         name        = "SPRING_PROFILES_ACTIVE"
         value       = "prod"
-    }
+}
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_URL"
+        value       = aws_db_instance.default.endpoint
+}
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_USER"
+        value       = aws_db_instance.default.username
+}
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_PWD"
+        value       = aws_db_instance.default.password
+}   
   
     
 }
