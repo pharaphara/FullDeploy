@@ -1,5 +1,6 @@
 resource "aws_s3_bucket" "terradeploy" {
   bucket = "terradeploy"
+  force_destroy = true
 
 }
 
