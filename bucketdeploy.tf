@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "deploybucket" {
+resource "aws_s3_bucket" "terradeploybucket" {
   bucket = "my-tf-test-bucket"
 
   tags = {
@@ -8,6 +8,6 @@ resource "aws_s3_bucket" "deploybucket" {
 }
 
 resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.deploybucket.id
+  bucket = aws_s3_bucket.terradeploybucket.id
   acl    = "private"
 }
