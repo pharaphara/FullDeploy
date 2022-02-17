@@ -1,17 +1,11 @@
-resource "aws_s3_bucket" "prod_websiteeql" {
-  bucket = "my-tf-test-bucket"
-
-  tags = {
-    Name        = "frontAngular"
-    Environment = "prod"
-  }
-  
+resource "aws_s3_bucket" "front" {
+  bucket = "frontEQLXchange"
 
   
 }
 
-resource "aws_s3_bucket_policy" "prod_websiteeql" {
-  bucket = aws_s3_bucket.prod_websiteeql.id
+resource "aws_s3_bucket_policy" "front" {
+  bucket = aws_s3_bucket.front.id
 
   policy = <<POLICY
 {
@@ -26,7 +20,7 @@ resource "aws_s3_bucket_policy" "prod_websiteeql" {
                  "s3:GetObjectVersion"
             ],
             "Resource": [
-                "arn:aws:s3:::${aws_s3_bucket.prod_websiteeql.id}/*"
+                "arn:aws:s3:::${aws_s3_bucket.front.id}/*"
             ]
         }
     ]

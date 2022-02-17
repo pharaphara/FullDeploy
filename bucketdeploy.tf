@@ -1,13 +1,9 @@
-resource "aws_s3_bucket" "terradeploybucketeql" {
-  bucket = "my-tf-test-bucket"
+resource "aws_s3_bucket" "terradeploy" {
+  bucket = "terradeploy"
 
-  tags = {
-    Name        = "My deploy bucket eql"
-    Environment = "Dev"
-  }
 }
 
 resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.terradeploybucketeql.id
+  bucket = aws_s3_bucket.terradeploy.id
   acl    = "private"
 }
