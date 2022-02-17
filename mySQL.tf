@@ -63,7 +63,7 @@ output "prodDB_USER" {
   value       = aws_db_instance.default.username
   }
   output "prodDB_PWD" {  
-  sensitive = true
+  sensitive = false
   value       = aws_db_instance.default.password 
   }
 
