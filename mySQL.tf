@@ -55,8 +55,16 @@ resource "aws_security_group" "webserver-sg" {
 
 
 output "prodDB_URL" {  
-  description = "walletapp URL"  
+  
   value       = aws_db_instance.default.endpoint
+  }
+output "prodDB_USER" {  
+  
+  value       = aws_db_instance.default.username
+  }
+  output "prodDB_PWD" {  
+  
+  value       = aws_db_instance.default.password 
   }
 
   
