@@ -30,7 +30,7 @@ pipeline {
         }
         stage('terraform APPLY ') {
             steps {
-                sh 'terraform apply -auto-approve -no-color'
+                sh 'terraform apply -auto-approve '
                 sh 'terraform output >output.txt'
             }
         }
