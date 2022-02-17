@@ -86,7 +86,7 @@ pipeline {
                         
                     },
                     ' MatchEngine': {
-                       sh 'aws elasticbeanstalk describe-environment-health --environment-name matchengineapp-env --attribute-names Color '
+                       sh 'aws elasticbeanstalk describe-environment-health --environment-name matchengine-env --attribute-names Color '
                     }
                 )
              }
