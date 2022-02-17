@@ -4,8 +4,8 @@ resource "aws_db_instance" "default" {
   engine_version       = "8.0.27"
   instance_class       = "db.t2.micro"
   name                 = "db_production"
-  username             = "admindelaprod"
-  password             = "motdepassedelaprod"
+  username             = "admin"
+  password             = "azerty2+"
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true
   
@@ -53,18 +53,11 @@ resource "aws_security_group" "webserver-sg" {
   
 }
 
-
 output "prodDB_URL" {  
   
   value       = aws_db_instance.default.endpoint
   }
-output "prodDB_USER" {  
-  
-  value       = aws_db_instance.default.username
-  }
-  output "prodDB_PWD" {  
-  sensitive = false
-  value       = aws_db_instance.default.password 
-  }
+
+
 
   
