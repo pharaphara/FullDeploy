@@ -41,8 +41,7 @@ pipeline {
                     sh "echo ${matchengine_URL}"
                     sh "echo ${walletapp_URL}"
                     sh "echo ${prodDB_URL}"
-                    sh "echo ${prodDB_USER}"
-                    sh "echo ${prodDB_PWD}"
+                   
                     
                     sh 'aws lambda update-function-configuration --function-name user-create-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
                      sh 'aws lambda update-function-configuration --function-name update-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
