@@ -78,6 +78,37 @@ pipeline {
                 )
              }
         }
-        
+        stage('Check Env Health') {
+            steps {
+                parallel(
+                    'Wallet': {
+                        sh 'aws elasticbeanstalk describe-environment-health --environment-name walletapp-env --attribute-names Color | grep Green'
+                         rc = sh(script: 'aws elasticbeanstalk describe-environment-health --environment-name walletapp-env --attribute-names Color | grep Green', returnStatus: true)
+
+                        // check exit code
+                        sh "echo \"exit code is : ${rc}\""
+
+                        if (rc != 0) 
+                            { 
+                                sh "echo 'exit code is NOT zero'"
+                         } 
+                        else 
+                        {
+                            sh "echo 'exit code is zero'"
+                        }
+                    },
+                    ' MatchEngine': {
+                       sh 'aws elasticbeanstalk describe-environment-health --environment-name walletapp-env --attribute-names Color '
+                    },
+                    'Deploy Front Angular': {
+                        build job: 'pipeline3', parameters: [
+                            string(name: 'WALLET_URL', value: 'lawalletURL.com')
+                        ],
+                        propagate: true,
+                        wait: true
+                    }
+                )
+             }
+        }
     }
 }
