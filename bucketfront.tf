@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "front" {
-  bucket = "frontEQLXchange"
+  bucket = "front-eql-xchange"
 
   
 }
