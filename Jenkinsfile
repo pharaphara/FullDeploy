@@ -45,7 +45,7 @@ pipeline {
                     sh "echo ${prodDB_PWD}"
                     
                     sh 'aws lambda update-function-configuration --function-name user-create-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'", "prodDB_USER":"\'${prodDB_USER}\'", "prodDB_PWD":"\'${prodDB_PWD}\'"}}\''
-                     sh 'aws lambda update-function-configuration --function-name update-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'", "prodDB_USER":"\'${prodDB_USER}\'", "prodDB_PWD":"\'${prodDB_PWD}\'"}}''
+                     sh 'aws lambda update-function-configuration --function-name update-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'", "prodDB_USER":"\'${prodDB_USER}\'", "prodDB_PWD":"\'${prodDB_PWD}\'"}}\''
                      sh 'aws lambda update-function-configuration --function-name user-check-email --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'", "prodDB_USER":"\'${prodDB_USER}\'", "prodDB_PWD":"\'${prodDB_PWD}\'"}}\''
                      sh 'aws lambda update-function-configuration --function-name current-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'", "prodDB_USER":"\'${prodDB_USER}\'", "prodDB_PWD":"\'${prodDB_PWD}\'"}}''
                     
