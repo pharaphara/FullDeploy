@@ -1,6 +1,6 @@
 
 resource "aws_elastic_beanstalk_application" "matchengine" {
-  name        = "matchengine"
+  name        = "terradeploy"
 
  
 }
@@ -24,6 +24,21 @@ setting {
         name        = "WALLET_URL"
         value       = aws_elastic_beanstalk_environment.walletapp-env.endpoint_url
     }
+    setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_URL"
+        value       = aws_db_instance.default.endpoint
+}
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_USER"
+        value       = aws_db_instance.default.username
+}
+setting  {
+        namespace   = "aws:elasticbeanstalk:application:environment"
+        name        = "SQL_PWD"
+        value       = aws_db_instance.default.password
+} 
     
 }
 
