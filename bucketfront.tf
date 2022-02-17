@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "prod_websiteeql" {
     Name        = "frontAngular"
     Environment = "prod"
   }
-  acl    = "public-read"
+  
 
   website {
     index_document = "index.html"
