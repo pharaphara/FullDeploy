@@ -34,15 +34,7 @@ pipeline {
                 sh 'terraform output >output.txt'
             }
         }
-        stage ('echo URL') {
-            steps {
-                sh 'ls'
-                sh 'pwd'
-                sh 'wallet=$(cat output.txt | grep "matchengine"|cut -d\'"\' -f 2)'
-                sh 'echo ${wallet}'
-                
-            }
-        }
+        
         stage('Parallel Deployment') {
             steps {
                 parallel(
@@ -59,9 +51,17 @@ pipeline {
                         ],
                         propagate: true,
                         wait: true
+                    },
+                    'Deploy Front Angular': {
+                        build job: 'pipeline3', parameters: [
+                            string(name: 'WALLET_URL', value: 'lawalletURL.com')
+                        ],
+                        propagate: true,
+                        wait: true
                     }
                 )
              }
         }
+        
     }
 }
