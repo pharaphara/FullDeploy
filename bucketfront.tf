@@ -7,11 +7,7 @@ resource "aws_s3_bucket" "prod_websiteeql" {
   }
   
 
-  website {
-    index_document = "index.html"
-    error_document = "error.html"
-
-  }
+  
 }
 
 resource "aws_s3_bucket_policy" "prod_websiteeql" {
