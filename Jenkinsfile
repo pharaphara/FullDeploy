@@ -57,21 +57,21 @@ pipeline {
             steps {
                 parallel(
                     'Deploy Wallet': {
-                        build job: 'pipeline1', parameters: [
+                        build job: 'wallet', parameters: [
                             string(name: 'param1', value: "value1")
                         ],
                         propagate: true,
                         wait: true
                     },
                     'Deploy MatchEngine': {
-                        build job: 'pipeline2', parameters: [
+                        build job: 'matchEngine', parameters: [
                             string(name: 'param1', value: "value1")
                         ],
                         propagate: true,
                         wait: true
                     },
                     'Deploy Front Angular': {
-                        build job: 'pipeline3', parameters: [
+                        build job: 'front', parameters: [
                             string(name: 'WALLET_URL', value: 'lawalletURL.com')
                         ],
                         propagate: true,
