@@ -43,10 +43,10 @@ pipeline {
                     sh "echo ${prodDB_URL}"
                    
                     
-                    sh 'aws lambda update-function-configuration --function-name user-create-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
-                     sh 'aws lambda update-function-configuration --function-name update-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
-                     sh 'aws lambda update-function-configuration --function-name user-check-email --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
-                     sh 'aws lambda update-function-configuration --function-name current-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL}\'"}}\''
+                    sh 'aws lambda update-function-configuration --function-name user-create-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL%:*}\'"}}\''
+                     sh 'aws lambda update-function-configuration --function-name update-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL%:*}\'"}}\''
+                     sh 'aws lambda update-function-configuration --function-name user-check-email --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL%:*}\'"}}\''
+                     sh 'aws lambda update-function-configuration --function-name current-user --environment \'{"Variables":{"prodDB_URL":"\'${prodDB_URL%:*}\'"}}\''
                 }
             }
         }
