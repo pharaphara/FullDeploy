@@ -31,12 +31,12 @@ pipeline {
         stage('terraform APPLY ') {
             steps {
                 sh 'terraform apply -auto-approve '
-                sh 'terraform output >output.txt'
+                sh 'terraform output >../output.txt'
             }
         }
         stage('Update Lambda ENV ') {
             steps {
-                sh'cat output.txt | tr -d \' "\'>environment.txt'
+                sh'cat ../output.txt | tr -d \' "\'>environment.txt'
                 withEnv(readFile('environment.txt').split('\n') as List) {
                     sh "echo ${matchengine_URL}"
                     sh "echo ${walletapp_URL}"
@@ -52,46 +52,54 @@ pipeline {
                 }
             }
         }
-        
-        stage('Parallel Deployment') {
-            steps {
-                parallel(
-                    'Deploy Wallet': {
-                        build job: 'wallet', parameters: [
-                            string(name: 'param1', value: "value1")
-                        ],
-                        propagate: true,
-                        wait: true
-                    },
-                    'Deploy MatchEngine': {
-                        build job: 'matchEngine', parameters: [
-                            string(name: 'param1', value: "value1")
-                        ],
-                        propagate: true,
-                        wait: true
-                    },
-                    'Deploy Front Angular': {
-                        build job: 'front', parameters: [
-                            string(name: 'WALLET_URL', value: 'lawalletURL.com')
-                        ],
-                        propagate: true,
-                        wait: true
+         stage('Build and Deploy') {
+           parallel{
+               stage('wallet'){
+                   stages{
+                       stage ('Build and Deploy'){
+                           steps{
+                               build job: 'wallet', parameters: [string(name: 'param1', value: "value1")],propagate: true,wait: true
+                           }
+                       }
+                       stage('Check Env Health') {
+                            steps {
+                                sh 'aws elasticbeanstalk describe-environment-health --environment-name walletapp-env --attribute-names Color | grep Green'
+                             }
+                        }
                     }
-                )
-             }
+
+                }
+               stage('matchEngine'){
+                   stages{
+                       stage ('Build and Deploy'){
+                           steps{
+                               build job: 'matchEngine', parameters: [string(name: 'param1', value: "value1")],propagate: true,wait: true
+                           }
+                       }
+                       stage('Check Env Health') {
+                            steps {
+                                sh 'aws elasticbeanstalk describe-environment-health --environment-name matchengine-env --attribute-names Color | grep Green'
+                             }
+                        }
+                   }
+               }
+               stage('front Angular'){
+                   stages{
+                       stage ('Build and Deploy'){
+                           steps{
+                               build job: 'front', parameters: [string(name: 'param1', value: "value1")],propagate: true,wait: true
+                            }
+                        }
+                        stage('Check Env Health') {
+                            steps {
+                                sh 'aws elasticbeanstalk describe-environment-health --environment-name matchengine-env --attribute-names Color | grep Green'
+                             }
+                        }
+                   }
+               }
+           }
         }
-        stage('Check Env Health') {
-            steps {
-                parallel(
-                    'Wallet': {
-                        sh 'aws elasticbeanstalk describe-environment-health --environment-name walletapp-env --attribute-names Color | grep Green'
-                        
-                    },
-                    ' MatchEngine': {
-                       sh 'aws elasticbeanstalk describe-environment-health --environment-name matchengine-env --attribute-names Color '
-                    }
-                )
-             }
-        }
+       
+       
     }
 }
